@@ -14,42 +14,53 @@
 
      <div class="time">
         <h2 id="days">00</h2>
-        <small>Days</small>
+        <small>DAYS</small>
     </div>
 
     <div class="time">
         <h2 id="hours">00</h2>
-        <small>Hours</small>
+        <small>HOURS</small>
     </div>
 
     <div class="time">
         <h2 id="minutes">00</h2>
-        <small>Minutes</small>
+        <small>MINUTES</small>
     </div>
 
     <div class="time">
         <h2 id="seconds">00</h2>
-        <small>Seconds</small>
+        <small>SECONDS</small>
     </div>
+    <div id="signupinfo" class="signupinfo">
+
+        <div class="signup">
+        <h3>SIGN UP FOR EMAIL UPDATES</h3>
+    </div>
+
+    <form name="submit-to-google-sheet">
+        <input type="email" name="Email" placeholder="Email ID" required>
+        <button type="submit"><img src="sendbutton.png" width="30px"></button>
+    </form>
+    <span id="msg"></span>
 </div>
-
-    <script src="script.js">
-        const countDownDate = new Date ("December 25, 2023 00:00:00").getTime();
-        const x = setInterval(function(){
-            const now = new Date().getTime();
-            const distance = countDownDate - now;
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((tdistance % (1000 * 60)) / 1000);
-
-            document.getElementById("days").innerHTML = days;
-            document.getElementById("hours").innerHTML = hours;
-            document.getElementById("minutes").innerHTML = minutes;
-            document.getElementById("seconds").innerHTML = seconds;
-
-        },1000);
-    </script>
+    <script src="script.js"></script>
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwRl1NkPgOfShOtYiGTTYulouXvPPmZOQQbGniuC9jlmprvbV5_BAhU7SU3E2yN1vRhWA/exec'
+        const form = document.forms['submit-to-google-sheet']
+        const msg = document.getElementById("msg")
+      
+        form.addEventListener('submit', e => {
+          e.preventDefault()
+          fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+            .then(response => {
+                msg.innerHTML = "THANK YOU FOR YOUR SUBSCRIPTION!"
+                setTimeout(function(){
+                    msg.innerHTML = ""
+                },5000)
+                form.reset()
+            })
+            .catch(error => console.error('Error!', error.message))
+        })
+      </script>
 </body>
 </html>
